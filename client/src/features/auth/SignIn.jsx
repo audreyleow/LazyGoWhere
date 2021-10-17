@@ -2,8 +2,6 @@ import React from "react";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import firebase from "firebase/app";
 import "firebase/auth";
-import Box from "@mui/material/Box";
-import BackgroundImage from "../../assets/images/login_background.png";
 import MainBackgroundLayout from "../../common/layouts/MainBackgroundLayout";
 
 export default function SignIn({ setStep }) {
