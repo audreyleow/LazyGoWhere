@@ -22,7 +22,7 @@ export default function DropdownFeature(props) {
           fontSize: "24px",
           fontWeight: "300",
           color: " #333333",
-          paddingTop: "20px",
+          paddingTop: "10px",
           paddingBottom: "10px",
         }}
       >

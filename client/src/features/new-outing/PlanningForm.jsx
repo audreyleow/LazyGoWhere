@@ -1,9 +1,18 @@
 import React, { useState } from "react";
-import { Button, Typography } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import MainBackgroundLayout from "../../common/layouts/MainBackgroundLayout";
 import DropdownFeature from "../../common/components/DropdownFeature";
 import ActivitiesFilterField from "../../common/components/ActivitiesFilterField";
+import RadioFeature from "../../common/components/RadioFeature";
 import qs from "qs";
 import axios from "axios";
 
@@ -35,9 +44,15 @@ export default function PlanningForm() {
     setChosenActivityNo(event.target.value);
   };
 
-  const [day, setDay] = useState('');
+  const [day, setDay] = useState("");
   const handleSetDay = (event) => {
     setDay(event.target.value);
+  };
+
+  const [buildingOption, setBuildingOption] = useState("BUILD-YOUR-OWN");
+
+  const handleBuildingOption = (event) => {
+    setBuildingOption(event.target.value);
   };
 
   React.useEffect(() => {
@@ -59,7 +74,7 @@ export default function PlanningForm() {
       <MainBackgroundLayout>
         <Box
           sx={{
-            width: "768px",
+            width: "100%",
             margin: "auto",
             display: "flex",
             flexDirection: "column",
@@ -95,16 +110,20 @@ export default function PlanningForm() {
           <Box>
             <ActivitiesFilterField />
           </Box>
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Typography>How would you like to build your itinerary?</Typography>
-            <Box>
-              <Button variant="contained" sx={{ backgroundColor: "#B93434" }}>
-                BUILD-YOUR-OWN
-              </Button>
-              <Button variant="contained" sx={{ backgroundColor: "#3459B9" }}>
-                AUTO-BUILD
-              </Button>
-            </Box>
+          <Box>
+            <RadioFeature
+              RadioFeatureQuestion="How would you like to build your itinerary?"
+              buildingOption={buildingOption}
+              handleBuildingOption={handleBuildingOption}
+            />
+          </Box>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Button
+              variant="contained"
+              sx={{ backgroundColor: "#3459B9", width: "fit-content" }}
+            >
+              LET'S GO!
+            </Button>
           </Box>
         </Box>
       </MainBackgroundLayout>
