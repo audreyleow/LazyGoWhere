@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Typography,
-} from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import MainBackgroundLayout from "../../common/layouts/MainBackgroundLayout";
 import DropdownFeature from "../../common/components/DropdownFeature";
@@ -42,7 +35,7 @@ export default function PlanningForm() {
     setChosenActivityNo(event.target.value);
   };
 
-  const [day, setDay] = useState(null);
+  const [day, setDay] = useState('');
   const handleSetDay = (event) => {
     setDay(event.target.value);
   };
@@ -52,22 +45,12 @@ export default function PlanningForm() {
       .get(
         `/activities?${qs.stringify({
           limit: 5,
-          categoryDescriptions: ["Attractions"],
+          categoryDescriptions: ["Attractions", "Venues"],
         })}`
       )
       .then((res) => {
+        // setSuggestions(res.data)
         console.log("attrs: ", res.data);
-      });
-
-    axios
-      .get(
-        `/activities?${qs.stringify({
-          limit: 5,
-          categoryDescriptions: ["Venues"],
-        })}`
-      )
-      .then((res) => {
-        console.log("veneues: ", res.data);
       });
   }, []);
 

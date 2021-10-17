@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 import {
   FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
   Typography,
   Box,
-  FormLabel,
   FormGroup,
   FormControlLabel,
   Checkbox,
