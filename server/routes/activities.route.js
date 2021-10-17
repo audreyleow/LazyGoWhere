@@ -9,4 +9,9 @@ router.get("/", async (req, res) => {
   return res.json(result);
 });
 
+router.get("/mrt", async (req, res) => {
+  const result = await activitiesService.getAllMrtStations();
+  return res.json(result);
+});
+
 module.exports = router;

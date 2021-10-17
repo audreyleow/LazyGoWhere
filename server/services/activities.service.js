@@ -1,27 +1,34 @@
 const { Activity } = require("../models/activity.model");
 
 async function findAll(options) {
-  const { limit, skip, categoryDescriptions } = options;
+  const { limit, categoryDescriptions } = options;
 
-  const findOptions = {};
+  const result = {};
 
-  if (categoryDescriptions) {
-    findOptions.categoryDescription = { $in: categoryDescriptions };
+  for (const categoryDescription of categoryDescriptions) {
+    let query = Activity.find({ categoryDescription });
+
+    if (limit) {
+      query = query.limit(+limit);
+    }
+
+    const data = await query.exec();
+
+    result[categoryDescription] = data;
   }
 
-  let query = Activity.find(findOptions);
-
-  if (limit) {
-    query = query.limit(+limit);
-  }
-
-  if (skip) {
-    query = query.skip(+skip);
-  }
-
-  const data = await query.exec();
-
-  return data;
+  return result;
 }
 
-module.exports = { findAll };
+async function getAllMrtStations() {
+  const result = {};
+  const activities = await Activity.find().exec();
+
+  for (const activity of activities) {
+    result[activity.nearestMrtStation] = true;
+  }
+
+  return Object.keys(result);
+}
+
+module.exports = { findAll, getAllMrtStations };
