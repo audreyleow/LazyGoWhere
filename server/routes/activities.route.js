@@ -14,4 +14,9 @@ router.get("/mrt", async (req, res) => {
   return res.json(result);
 });
 
+router.get("/:id", async (req, res) => {
+  const result = await activitiesService.findOne(req.params.id);
+  return res.json(result);
+});
+
 module.exports = router;

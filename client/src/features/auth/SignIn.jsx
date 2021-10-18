@@ -2,7 +2,7 @@ import React from "react";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import firebase from "firebase/app";
 import "firebase/auth";
-import MainBackgroundLayout from "../../common/layouts/MainBackgroundLayout";
+import MainBackgroundLayout from "../../common/components/MainBackgroundLayout";
 
 export default function SignIn({ setStep }) {
   const uiConfig = React.useMemo(

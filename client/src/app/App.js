@@ -2,7 +2,7 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 import { useAuth } from "../features/auth/use-auth.hook";
 import NewOutingView from "../features/new-outing/NewOutingView";
-import RecommendationsMainView from "../common/components/RecommendationsMainView";
+import RecommendationsMainView from "../features/recommendation/RecommendationsMainView";
 
 function App() {
   // setup auth listeners

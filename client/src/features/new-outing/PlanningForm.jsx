@@ -1,20 +1,16 @@
 import React, { useState } from "react";
-import {
-  Button,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
-  Typography,
-} from "@mui/material";
+import { Button } from "@mui/material";
 import { Box } from "@mui/system";
-import MainBackgroundLayout from "../../common/layouts/MainBackgroundLayout";
+import MainBackgroundLayout from "../../common/components/MainBackgroundLayout";
 import DropdownFeature from "../../common/components/DropdownFeature";
-import ActivitiesFilterField from "../../common/components/ActivitiesFilterField";
-import RadioFeature from "../../common/components/RadioFeature";
+import ActivitiesFilterField from "./ActivitiesFilterField";
+import RadioFeature from "./RadioFeature";
 import qs from "qs";
 import axios from "axios";
+import {
+  activityNo,
+  dayOptions,
+} from "../../common/constants/activities-filter-options.contant";
 
 export default function PlanningForm() {
   const mrtStations = [
@@ -30,10 +26,6 @@ export default function PlanningForm() {
     "Changi Airport",
     "Bukit Panjang",
   ];
-
-  const activityNo = [1, 2, 3, 4, 5];
-
-  const dayOptions = ["Weekday", "Weekend"];
 
   const [chosenMRT, setChosenMRT] = useState("");
   const handleMRTChange = (event) => {
@@ -120,7 +112,13 @@ export default function PlanningForm() {
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <Button
               variant="contained"
-              sx={{ backgroundColor: "#3459B9", width: "fit-content" }}
+              sx={{
+                backgroundColor: "#3459B9",
+                padding: "8px 38px",
+                height: "fit-content",
+                fontSize: "22px",
+                fontWeight: "700",
+              }}
             >
               LET'S GO!
             </Button>

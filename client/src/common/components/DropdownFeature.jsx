@@ -24,6 +24,7 @@ export default function DropdownFeature(props) {
           color: " #333333",
           paddingTop: "10px",
           paddingBottom: "10px",
+          fontFamily: "Roboto",
         }}
       >
         {DropdownQuestion}
@@ -39,7 +40,11 @@ export default function DropdownFeature(props) {
           autoWidth
         >
           {DropdownContent.map((IndividualDropdownContent) => (
-            <MenuItem sx={{ width: "280px" }} value={IndividualDropdownContent}>
+            <MenuItem
+              sx={{ width: "280px" }}
+              value={IndividualDropdownContent}
+              key={IndividualDropdownContent}
+            >
               {IndividualDropdownContent}
             </MenuItem>
           ))}

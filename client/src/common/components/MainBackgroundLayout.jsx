@@ -7,8 +7,10 @@ export default function MainBackgroundLayout({ children }) {
     <>
       <Box
         sx={{
-          height: "100vh",
-          backgroundImage: `url(${BackgroundImage})`,
+          height: "100%",
+          padding: "10px 15px 20px",
+          background: `url(${BackgroundImage})  no-repeat center center fixed`,
+          backgroundSize: "cover",
         }}
       >
         <Typography
@@ -17,6 +19,7 @@ export default function MainBackgroundLayout({ children }) {
             fontFamily: "SingleDayRegular",
             fontSize: "36px",
             fontWeight: "400",
+            paddingBottom: "30px",
           }}
         >
           Lazy Go Where
@@ -31,7 +34,16 @@ export default function MainBackgroundLayout({ children }) {
         >
           Lazy to plan for your next outing? Leave it to us.
         </Typography>
-        <Paper sx={{ width: "70%", margin: "auto" }}>{children}</Paper>
+        <Paper
+          sx={{
+            width: "70%",
+            margin: "auto",
+            padding: "10px 20px 20px",
+            borderRadius: "20px",
+          }}
+        >
+          {children}
+        </Paper>
       </Box>
     </>
   );

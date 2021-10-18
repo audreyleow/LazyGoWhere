@@ -20,6 +20,11 @@ async function findAll(options) {
   return result;
 }
 
+async function findOne(id) {
+  const activity = await Activity.findById(id);
+  return activity;
+}
+
 async function getAllMrtStations() {
   const result = {};
   const activities = await Activity.find().exec();
@@ -31,4 +36,4 @@ async function getAllMrtStations() {
   return Object.keys(result);
 }
 
-module.exports = { findAll, getAllMrtStations };
+module.exports = { findAll, getAllMrtStations, findOne };

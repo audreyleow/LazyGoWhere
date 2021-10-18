@@ -7,3 +7,7 @@ export const filterOptions = [
   "Tours",
   "Venues",
 ];
+
+export const activityNo = [1, 2, 3, 4, 5];
+
+export const dayOptions = ["Weekday", "Weekend"];

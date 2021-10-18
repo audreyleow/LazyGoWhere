@@ -31,7 +31,6 @@ mongoose
     app.use("/users", usersRouter);
     app.use("/cats", catsRouter);
     app.use("/activities", activitiesRouter);
-    // app.use("/login", catsRouter);
   });
 
 module.exports = app;

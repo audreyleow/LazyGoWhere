@@ -8,7 +8,7 @@ import {
   Checkbox,
   FormHelperText,
 } from "@mui/material";
-import { filterOptions } from "../constants/activities-filter-options.contant";
+import { filterOptions } from "../../common/constants/activities-filter-options.contant";
 
 const ITEMS_PER_COLUMN = 4;
 
@@ -48,7 +48,6 @@ export default function ActivitiesFilterField(props) {
           fontWeight: "300",
           color: " #333333",
           paddingTop: "20px",
-          paddingBottom: "10px",
         }}
       >
         What activities would you like?

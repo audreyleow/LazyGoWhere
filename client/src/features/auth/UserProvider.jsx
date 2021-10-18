@@ -13,7 +13,6 @@ export default function UserProvider({ children }) {
 
   const signOut = async () => {
     await firebase.auth().signOut();
-    setUser(undefined);
   };
 
   return (

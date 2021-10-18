@@ -2,6 +2,7 @@ import React from "react";
 import { useUser } from "./UserProvider";
 import firebase from "firebase/app";
 import "firebase/auth";
+import { useHistory } from "react-router-dom";
 
 // Configure Firebase.
 const config = {
@@ -20,23 +21,29 @@ if (!firebase.apps.length) {
 }
 
 export function useAuth() {
+  const history = useHistory();
   const { setUser } = useUser();
 
   React.useEffect(() => {
     const unregisterAuthObserver = firebase
       .auth()
       .onAuthStateChanged(async (user) => {
-        const token = await user.getIdToken(true);
+        if (user) {
+          const token = await user.getIdToken(true);
 
-        if (process.env.NODE_ENV === "development") {
-          console.log(token);
+          if (process.env.NODE_ENV === "development") {
+            console.log(token);
+          }
+
+          setUser({
+            id: user.uid,
+            email: user.email,
+            token,
+          });
+        } else {
+          setUser(undefined);
+          history.push("/");
         }
-
-        setUser({
-          id: user.uid,
-          email: user.email,
-          token,
-        });
       });
     return () => unregisterAuthObserver();
   }, []);
