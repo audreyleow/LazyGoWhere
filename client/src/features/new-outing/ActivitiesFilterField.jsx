@@ -6,27 +6,16 @@ import {
   FormGroup,
   FormControlLabel,
   Checkbox,
-  FormHelperText,
 } from "@mui/material";
 import { filterOptions } from "../../common/constants/activities-filter-options.contant";
 
 const ITEMS_PER_COLUMN = 4;
 
-export default function ActivitiesFilterField(props) {
-  const {} = props;
-
-  const [state, setState] = useState(
-    filterOptions.reduce((acc, curr) => ({ ...acc, [curr]: false }))
-  );
-
-  const handleChange = (event) => {
-    setState({
-      ...state,
-      [event.target.name]: event.target.checked,
-    });
-  };
-
-  const error = Object.values(state).filter((v) => v).length === 0;
+export default function ActivitiesFilterField({
+  activitiesSelected,
+  handleActivitiesSelected,
+}) {
+  const error = Object.values(activitiesSelected).filter((v) => v).length === 0;
 
   const filterColumns = filterOptions.reduce(
     (acc, curr) => {
@@ -68,8 +57,8 @@ export default function ActivitiesFilterField(props) {
                   key={option}
                   control={
                     <Checkbox
-                      checked={state[option]}
-                      onChange={handleChange}
+                      checked={activitiesSelected[option]}
+                      onChange={handleActivitiesSelected}
                       name={option}
                     />
                   }
@@ -80,7 +69,6 @@ export default function ActivitiesFilterField(props) {
             </FormGroup>
           </FormControl>
         ))}
-        <FormHelperText>You can display an error</FormHelperText>
       </Box>
     </>
   );

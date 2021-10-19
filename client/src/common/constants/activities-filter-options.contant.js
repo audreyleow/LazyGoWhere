@@ -1,5 +1,5 @@
 export const filterOptions = [
-  "Accomodations",
+  "Accommodation",
   "Attractions",
   "Bars & Clubs",
   "Events",

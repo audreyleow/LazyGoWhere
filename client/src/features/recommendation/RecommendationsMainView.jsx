@@ -2,6 +2,7 @@ import React from "react";
 import { Switch, Route, useRouteMatch } from "react-router-dom";
 import ActivityView from "../../common/components/ActivityView";
 import Navbar from "../../common/components/NavBar";
+import FilteredRecommendationView from "./FilteredRecommendationView";
 
 export default function RecommendationsMainView() {
   let match = useRouteMatch();
@@ -18,7 +19,7 @@ export default function RecommendationsMainView() {
           <ActivityView />
         </Route>
         <Route exact path={match.path}>
-          <h3>Please select a recommendation.</h3>
+          <FilteredRecommendationView />
         </Route>
       </Switch>
     </>

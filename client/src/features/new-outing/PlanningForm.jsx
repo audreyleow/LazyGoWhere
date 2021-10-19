@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Button } from "@mui/material";
 import { Box } from "@mui/system";
 import MainBackgroundLayout from "../../common/components/MainBackgroundLayout";
@@ -10,9 +11,12 @@ import axios from "axios";
 import {
   activityNo,
   dayOptions,
+  filterOptions,
 } from "../../common/constants/activities-filter-options.contant";
 
 export default function PlanningForm() {
+  const history = useHistory();
+
   const mrtStations = [
     "Yew Tee",
     "Serangoon",
@@ -47,19 +51,53 @@ export default function PlanningForm() {
     setBuildingOption(event.target.value);
   };
 
-  React.useEffect(() => {
-    axios
-      .get(
-        `/activities?${qs.stringify({
-          limit: 5,
-          categoryDescriptions: ["Attractions", "Venues"],
-        })}`
-      )
-      .then((res) => {
-        // setSuggestions(res.data)
-        console.log("attrs: ", res.data);
-      });
-  }, []);
+  const [activitiesSelected, setActivitiesSelected] = useState(
+    filterOptions.reduce((acc, curr) => ({ ...acc, [curr]: false }), {})
+  );
+
+  const handleActivitiesSelected = (event) => {
+    setActivitiesSelected((activitiesSelected) => ({
+      ...activitiesSelected,
+      [event.target.name]: event.target.checked,
+    }));
+  };
+
+  // React.useEffect(() => {
+  //   if (activitiesSelected["Accomodations"]) {
+  //     activitiesSelectedQuery.push("Accomodations");
+  //   }
+  //   if (activitiesSelected["Attractions"]) {
+  //     activitiesSelectedQuery.push("Attractions");
+  //   }
+  //   if (activitiesSelected["Bars & Clubs"]) {
+  //     activitiesSelectedQuery.push("Bars & Clubs");
+  //   }
+  //   if (activitiesSelected["Events"]) {
+  //     activitiesSelectedQuery.push("Events");
+  //   }
+  //   if (activitiesSelected["Food & Beverages"]) {
+  //     activitiesSelectedQuery.push("Food & Beverages");
+  //   }
+  //   if (activitiesSelected["Tours"]) {
+  //     activitiesSelectedQuery.push("Tours");
+  //   }
+  //   if (activitiesSelected["Venues"]) {
+  //     activitiesSelectedQuery.push("Venues");
+  //   }
+  // }, [activitiesSelected]);
+
+  const onClick = () => {
+    history.push({
+      pathname: "/recommendations",
+      search:
+        "?" +
+        qs.stringify({
+          categoryDescriptions: Object.entries(activitiesSelected)
+            .filter(([property, value]) => value)
+            .map(([property]) => property),
+        }),
+    });
+  };
 
   return (
     <>
@@ -100,7 +138,10 @@ export default function PlanningForm() {
             />
           </Box>
           <Box>
-            <ActivitiesFilterField />
+            <ActivitiesFilterField
+              activitiesSelected={activitiesSelected}
+              handleActivitiesSelected={handleActivitiesSelected}
+            />
           </Box>
           <Box>
             <RadioFeature
@@ -119,6 +160,7 @@ export default function PlanningForm() {
                 fontSize: "22px",
                 fontWeight: "700",
               }}
+              onClick={() => onClick()}
             >
               LET'S GO!
             </Button>

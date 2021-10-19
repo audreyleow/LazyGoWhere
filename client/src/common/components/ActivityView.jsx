@@ -43,10 +43,17 @@ export default function ActivityView() {
 
   return (
     <>
-      <img
-        src={imageLink(activity.imageIds[0])}
-        style={{ height: "350px", width: "100%" }}
-      />
+      {activity.imageIds.length > 0 ? (
+        <img
+          src={imageLink(activity.imageIds[0])}
+          style={{ height: "350px", width: "100%" }}
+        />
+      ) : (
+        <img
+          src={`https://upload.wikimedia.org/wikipedia/commons/f/f9/Phoenicopterus_ruber_in_S%C3%A3o_Paulo_Zoo.jpg`}
+          style={{ height: "350px", width: "100%" }}
+        />
+      )}
       <Box sx={{ padding: "20px 140px" }}>
         <Box
           sx={{
@@ -126,54 +133,63 @@ export default function ActivityView() {
             }}
           >
             Address: &nbsp;
-            {"#" +
+            {/* {"#" +
               activity.address.floorNumber +
               "-" +
               activity.address.buildingName +
               activity.address.unitNumber +
+              " " + */}
+            {activity.address.block +
               " " +
-              activity.address.block +
               activity.address.streetName +
               ", " +
               activity.address.postalCode}
           </Typography>
-          <Typography
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              paddingBottom: "10px",
-              fontSize: "16px",
-              fontWeight: "200",
-              fontFamily: "Roboto",
-            }}
-          >
-            Opening Hours: &nbsp;
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
-              <Select
-                displayEmpty
-                value={openingHours}
-                onChange={handleOpeningHoursChange}
-              >
-                {activity.businessHour.map((detail) => (
-                  <MenuItem
-                    value={
-                      detail.openTime +
-                      " - " +
-                      detail.closeTime +
-                      " (" +
-                      _.startCase(detail.day) +
-                      ")"
-                    }
-                  >
-                    {detail.openTime +
-                      " - " +
-                      detail.closeTime +
-                      " (" +
-                      _.startCase(detail.day) +
-                      ")"}
-                  </MenuItem>
-                ))}
-                {/* {activity.businessHour[0].day === "daily" ? (
+          {activity.businessHour.length > 0 && (
+            <Typography
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                paddingBottom: "10px",
+                fontSize: "16px",
+                fontWeight: "200",
+                fontFamily: "Roboto",
+              }}
+            >
+              Opening Hours: &nbsp;
+              <FormControl sx={{ m: 1, minWidth: 120 }}>
+                <Select
+                  displayEmpty
+                  value={
+                    activity.businessHour[0].openTime +
+                    " - " +
+                    activity.businessHour[0].closeTime +
+                    " (" +
+                    _.startCase(activity.businessHour[0].day) +
+                    ")"
+                  }
+                  onChange={handleOpeningHoursChange}
+                >
+                  {activity.businessHour.map((detail) => (
+                    <MenuItem
+                      value={
+                        detail.openTime +
+                        " - " +
+                        detail.closeTime +
+                        " (" +
+                        _.startCase(detail.day) +
+                        ")"
+                      }
+                    >
+                      {detail.openTime +
+                        " - " +
+                        detail.closeTime +
+                        " (" +
+                        _.startCase(detail.day) +
+                        ")"}
+                    </MenuItem>
+                  ))}
+                  {/* {activity.businessHour[0].day === "daily" ? (
                   <>
                     <MenuItem value={10}>
                       {activity.businessHour[0].openTime +
@@ -188,9 +204,10 @@ export default function ActivityView() {
                 ) : (
                   <MenuItem value={10}>Ten</MenuItem>
                 )} */}
-              </Select>
-            </FormControl>
-          </Typography>
+                </Select>
+              </FormControl>
+            </Typography>
+          )}
         </Box>
       </Box>
     </>
