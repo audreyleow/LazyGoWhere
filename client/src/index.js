@@ -3,14 +3,18 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./app/App";
 import UserProvider from "./features/auth/UserProvider";
+import LoadedItineraryProvider from "./features/itinerary-drawer/LoadedItineraryProvider";
+
 import { BrowserRouter as Router } from "react-router-dom";
 
 ReactDOM.render(
   <React.StrictMode>
     <UserProvider>
-      <Router>
-        <App />
-      </Router>
+      <LoadedItineraryProvider>
+        <Router>
+          <App />
+        </Router>
+      </LoadedItineraryProvider>
     </UserProvider>
   </React.StrictMode>,
   document.getElementById("root")

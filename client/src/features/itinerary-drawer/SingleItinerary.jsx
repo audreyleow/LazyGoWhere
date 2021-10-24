@@ -1,20 +1,19 @@
 import React, { useState } from "react";
 import { Box } from "@mui/system";
-import {
-  Button,
-  FormGroup,
-  FormControlLabel,
-  Switch,
-  Typography,
-} from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import MapImage from "../../assets/images/map_image.png";
+import EditItineraryView from "./EditItineraryView";
+import axios from "axios";
+import { useUser } from "../auth/UserProvider";
 
 export default function SingleItinerary({
   loadedItinerary,
   setLoadedItinerary,
 }) {
   const placesLeftNo = 3;
+  const { user } = useUser();
 
+  console.log(loadedItinerary);
   return (
     <>
       <Box
@@ -42,13 +41,10 @@ export default function SingleItinerary({
         >
           {placesLeftNo} places left to visit. Keep exploring!
         </Typography>
-        <FormGroup>
-          <FormControlLabel
-            labelPlacement="start"
-            control={<Switch defaultChecked />}
-            label="Auto-replace activity"
-          />
-        </FormGroup>
+        <EditItineraryView
+          loadedItinerary={loadedItinerary}
+          setLoadedItinerary={setLoadedItinerary}
+        />
         <Button
           variant="contained"
           sx={{
@@ -60,7 +56,7 @@ export default function SingleItinerary({
             width: "80%",
           }}
         >
-          Replace Itinerary
+          Auto-complete Itinerary
         </Button>
         <Box sx={{ display: "flex", paddingTop: "40px" }}>
           <Button
@@ -84,17 +80,33 @@ export default function SingleItinerary({
               fontWeight: "300",
               marginLeft: "5px",
             }}
+            onClick={async () => {
+              if (user) {
+                axios.put(
+                  `/users/itineraries/${loadedItinerary._id}`,
+                  {
+                    ...loadedItinerary,
+                    activityIds: loadedItinerary.activities.map(
+                      (activity) => activity._id
+                    ),
+                  },
+                  {
+                    headers: { token: user.token },
+                  }
+                );
+              }
+            }}
           >
             Save Itinerary
           </Button>
-          <Button
-            onClick={() => {
-              setLoadedItinerary(undefined);
-            }}
-          >
-            Back
-          </Button>
         </Box>
+        <Button
+          onClick={() => {
+            setLoadedItinerary(undefined);
+          }}
+        >
+          Back
+        </Button>
       </Box>
     </>
   );

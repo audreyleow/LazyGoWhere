@@ -12,11 +12,11 @@ async function findOrCreateUser(user) {
 
 async function getFullActivity(userDoc) {
   let newItineraries = userDoc.itineraries.map(async (itinerary) => {
-    const activities = await Activity.find({
-      _id: {
-        $in: itinerary.activityIds,
-      },
-    }).exec();
+    let activities = itinerary.activityIds.map(async (id) => {
+      const activity = await Activity.findById(id).exec();
+      return activity;
+    });
+    activities = await Promise.all(activities);
 
     const updatedItinerary = { ...itinerary.toJSON(), activities };
     delete updatedItinerary["activityIds"];

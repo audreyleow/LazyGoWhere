@@ -11,9 +11,11 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import _ from "lodash";
+import { useLoadedItinerary } from "../../features/itinerary-drawer/LoadedItineraryProvider";
 
 export default function ActivityView() {
   let { activityId } = useParams();
+  const { state: loadedItinerary, dispatch } = useLoadedItinerary();
   const [activity, setActivity] = React.useState();
 
   const [openingHours, setOpeningHours] = React.useState();
@@ -115,6 +117,15 @@ export default function ActivityView() {
                 fontSize: "18px",
                 fontWeight: "400",
                 textTransform: "none",
+              }}
+              disabled={
+                _.isEmpty(loadedItinerary) ||
+                loadedItinerary.activities.some(
+                  (stateActivity) => stateActivity._id === activity._id
+                )
+              }
+              onClick={() => {
+                dispatch({ type: "ACTIVITY_ADDED", payload: activity });
               }}
             >
               Add to itinerary

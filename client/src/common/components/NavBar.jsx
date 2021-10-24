@@ -13,16 +13,12 @@ import {
   EditLocationOutlined as EditLocationOutlinedIcon,
 } from "@mui/icons-material";
 import MainDrawer from "../../features/itinerary-drawer/MainDrawer";
+import { useLoadedItinerary } from "../../features/itinerary-drawer/LoadedItineraryProvider";
 
 export default function Navbar(props) {
+  const { setIsMainDrawerOpen, isMainDrawerOpen } = useLoadedItinerary();
+
   const LOCATION = "Pioneer";
-
-  const [openDrawer, setOpenDrawer] = useState(false);
-
-  const toggleDrawer = (newOpen) => () => {
-    setOpenDrawer(newOpen);
-  };
-
   const capitalizeFunction = (text) => {
     return text.toUpperCase();
   };
@@ -113,7 +109,9 @@ export default function Navbar(props) {
                   boxShadow: "none",
                 },
               }}
-              onClick={toggleDrawer(true)}
+              onClick={() => {
+                setIsMainDrawerOpen(true);
+              }}
             >
               <PersonOutlineOutlinedIcon
                 sx={{
@@ -149,10 +147,12 @@ export default function Navbar(props) {
           },
         }}
         anchor="right"
-        open={openDrawer}
-        onClose={toggleDrawer(false)}
+        open={isMainDrawerOpen}
+        onClose={() => {
+          setIsMainDrawerOpen(false);
+        }}
       >
-        <MainDrawer toggleDrawer={toggleDrawer} />
+        <MainDrawer />
       </Drawer>
     </>
   );

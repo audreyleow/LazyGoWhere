@@ -62,30 +62,6 @@ export default function PlanningForm() {
     }));
   };
 
-  // React.useEffect(() => {
-  //   if (activitiesSelected["Accomodations"]) {
-  //     activitiesSelectedQuery.push("Accomodations");
-  //   }
-  //   if (activitiesSelected["Attractions"]) {
-  //     activitiesSelectedQuery.push("Attractions");
-  //   }
-  //   if (activitiesSelected["Bars & Clubs"]) {
-  //     activitiesSelectedQuery.push("Bars & Clubs");
-  //   }
-  //   if (activitiesSelected["Events"]) {
-  //     activitiesSelectedQuery.push("Events");
-  //   }
-  //   if (activitiesSelected["Food & Beverages"]) {
-  //     activitiesSelectedQuery.push("Food & Beverages");
-  //   }
-  //   if (activitiesSelected["Tours"]) {
-  //     activitiesSelectedQuery.push("Tours");
-  //   }
-  //   if (activitiesSelected["Venues"]) {
-  //     activitiesSelectedQuery.push("Venues");
-  //   }
-  // }, [activitiesSelected]);
-
   const onClick = () => {
     history.push({
       pathname: "/recommendations",

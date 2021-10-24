@@ -12,13 +12,21 @@ import {
   Typography,
   Box,
 } from "@mui/material";
+import { useLoadedItinerary } from "./LoadedItineraryProvider";
 
 export default function ItineraryDrawer() {
   const [itineraryChoice, setItineraryChoice] = useState({ _id: "" });
 
   const { user, signOut } = useUser();
   const [userItineraries, setUserItineraries] = useState([]);
-  const [loadedItinerary, setLoadedItinerary] = useState();
+  const { state: loadedItinerary, dispatch } = useLoadedItinerary();
+
+  const setLoadedItinerary = (itinerary) => {
+    dispatch({
+      type: "LOADED_ITINERARY_UPDATED",
+      payload: itinerary,
+    });
+  };
 
   const handleSetItineraryChoice = (event) => {
     setItineraryChoice(

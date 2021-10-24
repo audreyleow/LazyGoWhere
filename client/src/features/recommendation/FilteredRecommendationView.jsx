@@ -23,7 +23,8 @@ export default function FilteredRecommendationView() {
           setRecommendations(res.data);
         });
     }
-  }, [query]);
+    // eslint-disable-next-line
+  }, []);
 
   if (!recommendations) {
     return <p>Loading...</p>;
