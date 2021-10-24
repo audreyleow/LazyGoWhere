@@ -1,8 +1,11 @@
 import React from "react";
 import { Box, Paper, Typography } from "@mui/material";
+import { useHistory, Link } from "react-router-dom";
 import BackgroundImage from "../../assets/images/login_background.png";
 
 export default function MainBackgroundLayout({ children }) {
+  const history = useHistory();
+
   return (
     <>
       <Box
@@ -14,16 +17,20 @@ export default function MainBackgroundLayout({ children }) {
         }}
       >
         <Typography
+          component={Link}
+          to="/"
           sx={{
             color: "#3459B9",
             fontFamily: "SingleDayRegular",
             fontSize: "36px",
             fontWeight: "400",
             paddingBottom: "30px",
+            textDecoration: "none",
           }}
         >
           Lazy Go Where
         </Typography>
+
         <Typography
           sx={{
             fontSize: "42px",

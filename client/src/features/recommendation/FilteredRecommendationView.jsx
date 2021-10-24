@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import FilterByCategory from "./FilterByCategory";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useQuery } from "../../common/hooks/use-query.hook";
 import axios from "axios";
 import qs from "qs";
@@ -31,7 +31,19 @@ export default function FilteredRecommendationView() {
   }
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column" }}>
+    <Box
+      sx={{ display: "flex", flexDirection: "column", padding: "20px 15px" }}
+    >
+      <Typography
+        sx={{
+          color: "#333333",
+          fontSize: "48px",
+          fontWeight: "300",
+          font: "Roboto",
+        }}
+      >
+        Recommendations
+      </Typography>
       {Object.entries(recommendations).map(([category, activity]) => (
         <FilterByCategory
           key={category}

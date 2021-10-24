@@ -7,7 +7,6 @@ import DropdownFeature from "../../common/components/DropdownFeature";
 import ActivitiesFilterField from "./ActivitiesFilterField";
 import RadioFeature from "./RadioFeature";
 import qs from "qs";
-import axios from "axios";
 import {
   activityNo,
   dayOptions,
@@ -17,24 +16,6 @@ import {
 export default function PlanningForm() {
   const history = useHistory();
 
-  const mrtStations = [
-    "Yew Tee",
-    "Serangoon",
-    "Woodlands",
-    "Pungool",
-    "Choa Chu Kang",
-    "Orchard",
-    "Bugis",
-    "Downtown",
-    "Raffles Place",
-    "Changi Airport",
-    "Bukit Panjang",
-  ];
-
-  const [chosenMRT, setChosenMRT] = useState("");
-  const handleMRTChange = (event) => {
-    setChosenMRT(event.target.value);
-  };
   const [chosenActivityNo, setChosenActivityNo] = useState(null);
   const handleActivityNoChange = (event) => {
     setChosenActivityNo(event.target.value);
@@ -86,15 +67,6 @@ export default function PlanningForm() {
             flexDirection: "column",
           }}
         >
-          <Box>
-            <DropdownFeature
-              DropdownQuestion={`Where would you like to visit?`}
-              DropdownCaption={`Select nearest MRT station`}
-              DropdownValue={chosenMRT}
-              DropdownChangeHandler={handleMRTChange}
-              DropdownContent={mrtStations}
-            />
-          </Box>
           <Box>
             <DropdownFeature
               DropdownQuestion={`Will your outing be on a weekday or weekend?`}

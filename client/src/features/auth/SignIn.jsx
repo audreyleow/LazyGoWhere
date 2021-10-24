@@ -27,13 +27,6 @@ export default function SignIn({ setStep }) {
   return (
     <MainBackgroundLayout>
       <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
-      <button
-        onClick={() => {
-          setStep(1);
-        }}
-      >
-        Continue as guest
-      </button>
     </MainBackgroundLayout>
   );
 }

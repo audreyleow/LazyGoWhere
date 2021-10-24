@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import _ from "lodash";
 
 export default function FilterByCategory({ categoryName, entryDetails }) {
   return (
@@ -35,6 +36,7 @@ export default function FilterByCategory({ categoryName, entryDetails }) {
             to={`/recommendations/${item._id}`}
             sx={{
               textDecoration: "none",
+              paddingRight: "10px",
             }}
           >
             {item.imageIds.length > 0 ? (
@@ -64,9 +66,13 @@ export default function FilterByCategory({ categoryName, entryDetails }) {
                 fontWeight: "400",
                 fontFamily: "Roboto",
                 color: "#000000",
+                display: "-webkit-box",
+                "-webkit-line-clamp": "3",
+                "-webkit-box-orient": "vertical",
+                overflow: "hidden",
               }}
             >
-              {item.description}
+              {_.capitalize(item.description)}
             </Typography>
           </Box>
         ))}

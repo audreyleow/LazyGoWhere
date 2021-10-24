@@ -23,26 +23,6 @@ export default function Navbar(props) {
     return text.toUpperCase();
   };
 
-  // const { user, signOut } = useUser();
-
-  // const onClick = () => {
-  //   if (user) {
-  //     axios.post(
-  //       "/users/itineraries",
-  //       {
-  //         name: "third itenarzzz",
-  //         numberOfActivities: 1,
-  //         activityIds: [
-  //           "002bd9bdfd895924db1b8e7f1cbd07fd431",
-  //           "008ab2333d294934eedba5fb9df09eac8a0",
-  //           "00205d2e3f23b9642a987806b221e9f735f",
-  //         ],
-  //       },
-  //       { headers: { token: user.token } }
-  //     );
-  //   }
-  // };
-
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
@@ -53,7 +33,8 @@ export default function Navbar(props) {
               alignItems: "center",
               backgroundColor: "#FFFFFF",
               height: "80px",
-              padding: "0px 0px 0px 10px !important",
+              padding: "0px 0px 0px 15px !important",
+              justifyContent: "space-between",
             }}
           >
             <Link
@@ -63,78 +44,51 @@ export default function Navbar(props) {
                 fontSize: "36px",
                 fontWeight: "400",
                 paddingRight: "10px",
-                borderRight: "0.3px solid #000000",
                 textDecoration: "none",
               }}
               href="/"
             >
               Lazy Go Where
             </Link>
-            <Box
-              sx={{
-                display: "flex",
-                flexGrow: 1,
-                color: "#000000",
-                paddingLeft: "10px",
-              }}
-            >
-              <Typography
+            <Box>
+              <Button
                 sx={{
-                  fontSize: "20px",
-                  fontWeight: "300",
-                  fontFamily: "Roboto",
+                  paddingRight: "10px",
+                  borderLeft: "0.3px solid #000000",
+                  borderRight: "0.3px solid #000000",
+                  borderRadius: "0px",
+                  "&:hover": {
+                    backgroundColor: "#ffffff",
+                    boxShadow: "none",
+                  },
+                }}
+                onClick={() => {
+                  setIsMainDrawerOpen(true);
                 }}
               >
-                Exploring now: &nbsp;
-              </Typography>
-              <Typography
+                <PersonOutlineOutlinedIcon
+                  sx={{
+                    color: "#3459B9",
+                    fontSize: "40px",
+                  }}
+                />
+              </Button>
+              <Button
                 sx={{
-                  fontSize: "20px",
-                  fontWeight: "400",
-                  fontFamily: "Roboto",
+                  paddingLeft: "10px",
+                  paddingRight: "10px",
+                  borderRadius: "0px",
+                  "&:hover": {
+                    backgroundColor: "#ffffff",
+                    boxShadow: "none",
+                  },
                 }}
               >
-                {capitalizeFunction(LOCATION)}
-              </Typography>
+                <EditLocationOutlinedIcon
+                  sx={{ color: "#3459B9", fontSize: "40px" }}
+                />
+              </Button>
             </Box>
-
-            <Button
-              sx={{
-                paddingRight: "10px",
-                borderLeft: "0.3px solid #000000",
-                borderRight: "0.3px solid #000000",
-                borderRadius: "0px",
-                "&:hover": {
-                  backgroundColor: "#ffffff",
-                  boxShadow: "none",
-                },
-              }}
-              onClick={() => {
-                setIsMainDrawerOpen(true);
-              }}
-            >
-              <PersonOutlineOutlinedIcon
-                sx={{
-                  color: "#3459B9",
-                  fontSize: "40px",
-                }}
-              />
-            </Button>
-            <Button
-              sx={{
-                paddingLeft: "10px",
-                paddingRight: "10px",
-                borderRadius: "0px",
-                "&:hover": {
-                  backgroundColor: "#ffffff",
-                  boxShadow: "none",
-                },
-              }}
-            >
-              <EditLocationOutlinedIcon
-                sx={{ color: "#3459B9", fontSize: "40px" }}
-              />
-            </Button>
           </Toolbar>
         </AppBar>
       </Box>
