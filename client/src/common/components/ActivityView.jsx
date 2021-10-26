@@ -3,13 +3,17 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import {
   Button,
+  CircularProgress,
   FormControl,
+  IconButton,
   MenuItem,
   Rating,
   Select,
+  Snackbar,
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
+import CloseIcon from "@mui/icons-material/Close";
 import _ from "lodash";
 import { useLoadedItinerary } from "../../features/itinerary-drawer/LoadedItineraryProvider";
 
@@ -19,10 +23,21 @@ export default function ActivityView() {
   const [activity, setActivity] = React.useState();
 
   const [openingHours, setOpeningHours] = React.useState();
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const handleOpeningHoursChange = (event) => {
     setOpeningHours(event.target.value);
   };
+
+  const getCurrActivitiesNo = () => loadedItinerary.activities.length;
 
   React.useEffect(() => {
     axios
@@ -36,15 +51,50 @@ export default function ActivityView() {
   }, []);
 
   if (!activity) {
-    return <p>Loading..</p>;
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          height: "100vh",
+          justifyContent: "center",
+        }}
+      >
+        <CircularProgress />
+        <Typography>Loading...</Typography>
+      </Box>
+    );
   }
 
   const imageLink = (imageId) => {
     return `https://firebasestorage.googleapis.com/v0/b/lazy-go-where-dev.appspot.com/o/${imageId}.jpeg?alt=media`;
   };
 
+  const action = (
+    <>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </>
+  );
+
   return (
     <>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message="You have reached the maximum number of activities you can add. Please
+        adjust the number of activities allowed for this itinerary if you wish
+        to add another activity!"
+        action={action}
+      />
       {activity.imageIds.length > 0 ? (
         <img
           src={imageLink(activity.imageIds[0])}
@@ -125,7 +175,11 @@ export default function ActivityView() {
                 )
               }
               onClick={() => {
-                dispatch({ type: "ACTIVITY_ADDED", payload: activity });
+                if (getCurrActivitiesNo < loadedItinerary.numberOfActivities) {
+                  dispatch({ type: "ACTIVITY_ADDED", payload: activity });
+                } else {
+                  setOpen(true);
+                }
               }}
             >
               Add to itinerary
