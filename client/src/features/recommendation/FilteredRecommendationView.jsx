@@ -1,6 +1,6 @@
 import React from "react";
 import FilterByCategory from "./FilterByCategory";
-import { Box, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import { useQuery } from "../../common/hooks/use-query.hook";
 import axios from "axios";
 import qs from "qs";
@@ -27,7 +27,20 @@ export default function FilteredRecommendationView() {
   }, []);
 
   if (!recommendations) {
-    return <p>Loading...</p>;
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          height: "100vh",
+          justifyContent: "center",
+        }}
+      >
+        <CircularProgress />
+        <Typography>Loading...</Typography>
+      </Box>
+    );
   }
 
   return (
