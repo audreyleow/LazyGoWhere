@@ -1,7 +1,7 @@
 const { Activity } = require("../models/activity.model");
 
 async function findAll(options) {
-  const { limit, categoryDescriptions } = options;
+  const { limit, skip, categoryDescriptions } = options;
 
   const result = {};
 
@@ -10,6 +10,10 @@ async function findAll(options) {
 
     if (limit) {
       query = query.limit(+limit);
+    }
+
+    if (skip) {
+      query.skip(+skip);
     }
 
     const data = await query.exec();
