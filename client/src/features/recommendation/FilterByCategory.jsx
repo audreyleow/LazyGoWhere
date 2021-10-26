@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import _ from "lodash";
@@ -37,7 +37,7 @@ export default function FilterByCategory({ categoryName, entryDetails }) {
         <Box
           sx={{
             textDecoration: "none",
-            width: "410px",
+            width: "300px",
             backgroundColor: "#4791db",
             flexShrink: 0,
             display: "flex",
@@ -50,7 +50,7 @@ export default function FilterByCategory({ categoryName, entryDetails }) {
         >
           <img
             src={`http://cdn.cnn.com/cnnnext/dam/assets/191212182124-04-singapore-buildings.jpg`}
-            style={{ width: "350px", height: "200px", borderRadius: "10px" }}
+            style={{ width: "250px", height: "200px", borderRadius: "10px" }}
           />
           <Typography
             sx={{
