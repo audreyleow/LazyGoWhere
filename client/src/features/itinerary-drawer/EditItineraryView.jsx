@@ -1,15 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box } from "@mui/system";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import _ from "lodash";
-import {
-  Button,
-  FormGroup,
-  FormControlLabel,
-  Switch,
-  Typography,
-} from "@mui/material";
-import MapImage from "../../assets/images/map_image.png";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useLoadedItinerary } from "./LoadedItineraryProvider";
 
@@ -66,6 +58,7 @@ export default function EditItineraryView() {
 
     dispatch({ type: "ACTIVITIES_UPDATED", payload: activities });
   };
+  console.log(state);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
