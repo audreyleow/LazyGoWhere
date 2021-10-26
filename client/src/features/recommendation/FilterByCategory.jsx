@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import _ from "lodash";
+import SingleActivityCard from "./SingleActivityCard";
 
 export default function FilterByCategory({ categoryName, entryDetails }) {
   return (
@@ -31,51 +32,53 @@ export default function FilterByCategory({ categoryName, entryDetails }) {
         }}
       >
         {entryDetails.map((item) => (
-          <Box
-            component={Link}
-            to={`/recommendations/${item._id}`}
+          <SingleActivityCard item={item} />
+        ))}
+        <Box
+          sx={{
+            textDecoration: "none",
+            width: "410px",
+            backgroundColor: "#4791db",
+            flexShrink: 0,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "space-around",
+            borderRadius: "15px",
+            margin: "15px",
+          }}
+        >
+          <img
+            src={`http://cdn.cnn.com/cnnnext/dam/assets/191212182124-04-singapore-buildings.jpg`}
+            style={{ width: "350px", height: "200px", borderRadius: "10px" }}
+          />
+          <Typography
             sx={{
-              textDecoration: "none",
-              paddingRight: "10px",
+              color: "#FFFFFF",
+              fontSize: "20px",
+              paddingLeft: "35px",
+              paddingRight: "35px",
             }}
           >
-            {item.imageIds.length > 0 ? (
-              <img
-                src={`https://firebasestorage.googleapis.com/v0/b/lazy-go-where-dev.appspot.com/o/${item.imageIds[0]}.jpeg?alt=media`}
-                style={{ width: "400px", height: "270px" }}
-              />
-            ) : (
-              <img
-                src={`https://upload.wikimedia.org/wikipedia/commons/f/f9/Phoenicopterus_ruber_in_S%C3%A3o_Paulo_Zoo.jpg`}
-                style={{ width: "400px", height: "270px" }}
-              />
-            )}
-            <Typography
-              sx={{
-                fontSize: "24px",
-                fontWeight: "700",
-                fontFamily: "Roboto",
-                color: "#000000",
-              }}
-            >
-              {item.name}
-            </Typography>
-            <Typography
-              sx={{
-                fontSize: "24px",
-                fontWeight: "400",
-                fontFamily: "Roboto",
-                color: "#000000",
-                display: "-webkit-box",
-                "-webkit-line-clamp": "3",
-                "-webkit-box-orient": "vertical",
-                overflow: "hidden",
-              }}
-            >
-              {_.capitalize(item.description)}
-            </Typography>
-          </Box>
-        ))}
+            Check out all the acitivites available for {categoryName} here!
+          </Typography>
+          <Button
+            variant="contained"
+            component={Link}
+            to={`/recommendations/${_.kebabCase(categoryName)}`}
+            sx={{
+              backgroundColor: "#FFFFFF",
+              color: "#4791db",
+              fontSize: "20px",
+              width: "70%",
+              "&:hover": {
+                color: "#FFFFFF",
+              },
+            }}
+          >
+            View More
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

@@ -37,6 +37,7 @@ export default function SingleItinerary({
             fontWeight: "300",
             fontFamily: "Roboto",
             paddingTop: "15px",
+            paddingBottom: "25px",
           }}
         >
           {placesLeftNo} places left to visit. Keep exploring!
