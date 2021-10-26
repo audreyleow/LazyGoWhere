@@ -12,17 +12,18 @@ export default function SingleActivityCard({ item }) {
         textDecoration: "none",
         margin: "15px 25px 15px 15px",
         borderRadius: "15px",
+        width: "300px",
       }}
     >
       {item.imageIds.length > 0 ? (
         <img
           src={`https://firebasestorage.googleapis.com/v0/b/lazy-go-where-dev.appspot.com/o/${item.imageIds[0]}.jpeg?alt=media`}
-          style={{ width: "400px", height: "270px", borderRadius: "10px" }}
+          style={{ width: "300px", height: "270px", borderRadius: "10px" }}
         />
       ) : (
         <img
           src={`https://upload.wikimedia.org/wikipedia/commons/f/f9/Phoenicopterus_ruber_in_S%C3%A3o_Paulo_Zoo.jpg`}
-          style={{ width: "400px", height: "270px", borderRadius: "10px" }}
+          style={{ width: "300px", height: "270px", borderRadius: "10px" }}
         />
       )}
       <Typography
