@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box } from "@mui/system";
 import { Button, Typography } from "@mui/material";
 import MapImage from "../../assets/images/map_image.png";
@@ -13,7 +13,6 @@ export default function SingleItinerary({
   const placesLeftNo = 3;
   const { user } = useUser();
 
-  console.log(loadedItinerary);
   return (
     <>
       <Box

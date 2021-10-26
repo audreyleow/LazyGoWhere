@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import DropdownFeature from "../../common/components/DropdownFeature";
 import SingleItinerary from "./SingleItinerary";
 import { useUser } from "../auth/UserProvider";
 import axios from "axios";
