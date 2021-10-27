@@ -199,7 +199,7 @@ export default function PlanningForm({ hasExisingItineraries }) {
                     }),
                 }}
               >
-                Click here to manage your existing ititneraries.
+                Click here to manage your existing itineraries.
               </Button>
             </>
           )}
