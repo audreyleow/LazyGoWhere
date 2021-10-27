@@ -62,3 +62,4 @@ typings/
 
 # misc
 secrets/*
+build/

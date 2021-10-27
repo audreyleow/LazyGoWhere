@@ -2,6 +2,7 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
+const path = require("path");
 
 const usersRouter = require("./routes/users.route");
 const catsRouter = require("./routes/cats.route");
@@ -31,6 +32,11 @@ mongoose
     app.use("/users", usersRouter);
     app.use("/cats", catsRouter);
     app.use("/activities", activitiesRouter);
+
+    app.use(express.static(path.join(__dirname, "build")));
+    app.use((req, res, next) => {
+      res.sendFile(path.join(__dirname, "build", "index.html"));
+    });
   });
 
 module.exports = app;
