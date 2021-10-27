@@ -3,6 +3,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 const path = require("path");
+require("dotenv").config();
 
 const usersRouter = require("./routes/users.route");
 const catsRouter = require("./routes/cats.route");
@@ -10,18 +11,21 @@ const activitiesRouter = require("./routes/activities.route");
 
 const admin = require("firebase-admin");
 
-const serviceAccount = require("./secrets/firebase-keys.json");
-const mongodbCredentials = require("./secrets/mongodb.json");
-
 const app = express();
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert({
+    project_id: process.env.project_id,
+    private_key_id: process.env.private_key_id,
+    private_key: process.env.private_key.replace(/\\n/g, "\n"),
+    client_email: process.env.client_email,
+    client_id: process.env.client_id,
+  }),
 });
 
 mongoose
   .connect(
-    `mongodb+srv://${mongodbCredentials.username}:${mongodbCredentials.password}@cluster0.hwyf0.mongodb.net/test?retryWrites=true&w=majority`
+    `mongodb+srv://${process.env.mongo_username}:${process.env.mongo_password}@cluster0.hwyf0.mongodb.net/test?retryWrites=true&w=majority`
   )
   .then(() => {
     app.use(logger("dev"));
