@@ -1,6 +1,5 @@
 import React from "react";
 import { Grid } from "@mui/material";
-import _ from "lodash";
 import SingleActivityCard from "./SingleActivityCard";
 
 const ITEMS_PER_ROW = 3;

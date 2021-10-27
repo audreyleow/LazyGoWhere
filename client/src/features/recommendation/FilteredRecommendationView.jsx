@@ -4,6 +4,7 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 import { useQuery } from "../../common/hooks/use-query.hook";
 import axios from "axios";
 import qs from "qs";
+import { filterOptions } from "../../common/constants/activities-filter-options.contant";
 
 export default function FilteredRecommendationView() {
   const query = useQuery();
@@ -11,18 +12,16 @@ export default function FilteredRecommendationView() {
   const [recommendations, setRecommendations] = React.useState();
 
   React.useEffect(() => {
-    if (query.categoryDescriptions) {
-      axios
-        .get(
-          `/activities?${qs.stringify({
-            limit: 5,
-            categoryDescriptions: query.categoryDescriptions,
-          })}`
-        )
-        .then((res) => {
-          setRecommendations(res.data);
-        });
-    }
+    axios
+      .get(
+        `/activities?${qs.stringify({
+          limit: 5,
+          categoryDescriptions: query.categoryDescriptions ?? filterOptions,
+        })}`
+      )
+      .then((res) => {
+        setRecommendations(res.data);
+      });
     // eslint-disable-next-line
   }, []);
 

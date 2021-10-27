@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import SignIn from "../auth/SignIn";
 import { useUser } from "../auth/UserProvider";
 import PlanningForm from "./PlanningForm";
@@ -7,7 +6,6 @@ import axios from "axios";
 
 export default function NewOutingView() {
   const { user } = useUser();
-  const history = useHistory();
 
   const [step, setStep] = useState(!!user ? 1 : 0);
   const [hasExisingItineraries, setHasExisingItineraries] = useState(false);

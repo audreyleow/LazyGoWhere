@@ -1,13 +1,5 @@
-import React, { useState } from "react";
-import {
-  AppBar,
-  Typography,
-  Box,
-  Button,
-  Drawer,
-  Toolbar,
-  Link,
-} from "@mui/material";
+import React from "react";
+import { AppBar, Box, Button, Drawer, Toolbar, Link } from "@mui/material";
 import {
   PersonOutlineOutlined as PersonOutlineOutlinedIcon,
   EditLocationOutlined as EditLocationOutlinedIcon,
@@ -17,11 +9,6 @@ import { useLoadedItinerary } from "../../features/itinerary-drawer/LoadedItiner
 
 export default function Navbar(props) {
   const { setIsMainDrawerOpen, isMainDrawerOpen } = useLoadedItinerary();
-
-  const LOCATION = "Pioneer";
-  const capitalizeFunction = (text) => {
-    return text.toUpperCase();
-  };
 
   return (
     <>

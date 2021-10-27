@@ -51,6 +51,7 @@ export default function FilterByCategory({ categoryName, entryDetails }) {
           <img
             src={`http://cdn.cnn.com/cnnnext/dam/assets/191212182124-04-singapore-buildings.jpg`}
             style={{ width: "250px", height: "200px", borderRadius: "10px" }}
+            alt="generic sg"
           />
           <Typography
             sx={{

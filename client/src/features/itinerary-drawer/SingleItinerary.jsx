@@ -38,7 +38,7 @@ export default function SingleItinerary({
           padding: "30px 10px",
         }}
       >
-        <img src={MapImage} />
+        <img src={MapImage} alt="map" />
         <Typography
           sx={{ fontSize: "24px", fontWeight: "400", fontFamily: "Roboto" }}
         >
@@ -62,20 +62,30 @@ export default function SingleItinerary({
               <Typography>
                 Set the number of activities you would like for this itinerary
               </Typography>
-              <Select
-                sx={{ marginBottom: "20px" }}
-                value={maxActivitiesNo}
-                onChange={handleChange}
+              <Box
+                sx={{
+                  alignItems: "center",
+                  textAlign: "center",
+                  marginTop: "15px",
+                }}
               >
-                {Array.from(
-                  { length: howManyMorePossibleActivites },
-                  (_, i) => (
-                    <MenuItem value={i + loadedItinerary.activities.length + 1}>
-                      {i + loadedItinerary.activities.length + 1}
-                    </MenuItem>
-                  )
-                )}
-              </Select>
+                <Select
+                  sx={{ marginBottom: "20px" }}
+                  value={maxActivitiesNo}
+                  onChange={handleChange}
+                >
+                  {Array.from(
+                    { length: howManyMorePossibleActivites },
+                    (_, i) => (
+                      <MenuItem
+                        value={i + loadedItinerary.activities.length + 1}
+                      >
+                        {i + loadedItinerary.activities.length + 1}
+                      </MenuItem>
+                    )
+                  )}
+                </Select>
+              </Box>
             </>
           )}
         </Box>
@@ -97,7 +107,7 @@ export default function SingleItinerary({
           }}
           onClick={async () => {
             const isUpdate = window.confirm(
-              "Your itinerary has not been saved. Press ok if you wish to override unsaved changes in order to auto-complete your itinerary."
+              "Press ok if you wish to override any possible unsaved changes in order to auto-complete your itinerary."
             );
             if (user && isUpdate) {
               const response = await axios.patch(

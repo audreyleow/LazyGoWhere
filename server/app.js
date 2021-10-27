@@ -1,4 +1,5 @@
 const express = require("express");
+require("express-async-errors");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
@@ -12,6 +13,12 @@ const activitiesRouter = require("./routes/activities.route");
 const admin = require("firebase-admin");
 
 const app = express();
+
+function errorHandler(err, req, res, next) {
+  console.error(err);
+  res.status(500);
+  res.json({ message: "Internal server error" });
+}
 
 admin.initializeApp({
   credential: admin.credential.cert({
@@ -41,6 +48,8 @@ mongoose
     app.use((req, res, next) => {
       res.sendFile(path.join(__dirname, "build", "index.html"));
     });
+
+    app.use(errorHandler);
   });
 
 module.exports = app;

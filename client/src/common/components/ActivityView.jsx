@@ -96,11 +96,13 @@ export default function ActivityView() {
       {activity.imageIds.length > 0 ? (
         <img
           src={imageLink(activity.imageIds[0])}
+          alt="activity"
           style={{ height: "350px", width: "100%" }}
         />
       ) : (
         <img
           src={`https://upload.wikimedia.org/wikipedia/commons/f/f9/Phoenicopterus_ruber_in_S%C3%A3o_Paulo_Zoo.jpg`}
+          alt="unavailable"
           style={{ height: "350px", width: "100%" }}
         />
       )}

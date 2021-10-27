@@ -1,11 +1,9 @@
 import React from "react";
 import { Box, Paper, Typography } from "@mui/material";
-import { useHistory, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import BackgroundImage from "../../assets/images/login_background.png";
 
 export default function MainBackgroundLayout({ children }) {
-  const history = useHistory();
-
   return (
     <>
       <Box

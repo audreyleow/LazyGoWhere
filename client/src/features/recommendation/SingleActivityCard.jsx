@@ -19,11 +19,13 @@ export default function SingleActivityCard({ item }) {
         <img
           src={`https://firebasestorage.googleapis.com/v0/b/lazy-go-where-dev.appspot.com/o/${item.imageIds[0]}.jpeg?alt=media`}
           style={{ width: "300px", height: "270px", borderRadius: "10px" }}
+          alt="activity"
         />
       ) : (
         <img
           src={`https://upload.wikimedia.org/wikipedia/commons/f/f9/Phoenicopterus_ruber_in_S%C3%A3o_Paulo_Zoo.jpg`}
           style={{ width: "300px", height: "270px", borderRadius: "10px" }}
+          alt="unavailable"
         />
       )}
       <Typography

@@ -6,7 +6,7 @@ async function findOrCreateUser(user) {
   return User.findByIdAndUpdate(
     user.uid,
     { _id: user.uid },
-    { upsert: true, new: true }
+    { upsert: true, new: true, runValidators: true }
   ).exec();
 }
 
@@ -79,7 +79,6 @@ async function completeItinerary(user, itineraryId) {
 
 async function initItinerary(user, data) {
   const { isAutoBuild, name, numberOfActivities, categoryDescriptions } = data;
-  console.log(data);
   const activities = isAutoBuild
     ? await generateActivities(numberOfActivities, categoryDescriptions)
     : [];
@@ -95,7 +94,7 @@ async function createItinerary(user, data) {
   const updatedUser = await User.findByIdAndUpdate(
     user.uid,
     { $push: { itineraries: data } },
-    { new: true, upsert: true }
+    { new: true, upsert: true, runValidators: true }
   ).exec();
 
   return await getFullActivity(updatedUser);
@@ -119,6 +118,7 @@ async function removeItinerary(itineraryId, user) {
   userDoc.itineraries = userDoc.itineraries.filter(
     (itinerary) => itinerary._id.toString() !== itineraryId
   );
+  console.log(userDoc.itineraries);
 
   await userDoc.save();
 

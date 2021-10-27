@@ -1,12 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
-import {
-  Button,
-  FormControl,
-  OutlinedInput,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, FormControl, OutlinedInput, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import MainBackgroundLayout from "../../common/components/MainBackgroundLayout";
 import DropdownFeature from "../../common/components/DropdownFeature";
@@ -15,15 +9,21 @@ import RadioFeature from "./RadioFeature";
 import qs from "qs";
 import {
   activityNo,
-  dayOptions,
   filterOptions,
 } from "../../common/constants/activities-filter-options.contant";
 import axios from "axios";
 import { useUser } from "../auth/UserProvider";
+import { useLoadedItinerary } from "../itinerary-drawer/LoadedItineraryProvider";
 
 export default function PlanningForm({ hasExisingItineraries }) {
   const { user } = useUser();
   const history = useHistory();
+  const { dispatch } = useLoadedItinerary();
+
+  useEffect(() => {
+    // reset selected itinerary
+    dispatch({ type: "LOADED_ITINERARY_UPDATED", payload: undefined });
+  }, []);
 
   const [chosenActivityNo, setChosenActivityNo] = useState(null);
   const handleActivityNoChange = (event) => {
@@ -152,7 +152,13 @@ export default function PlanningForm({ hasExisingItineraries }) {
                 fontSize: "22px",
                 fontWeight: "700",
               }}
-              onClick={() => onClick()}
+              onClick={onClick}
+              disabled={
+                itineraryName.trim().length === 0 ||
+                !chosenActivityNo ||
+                Object.values(activitiesSelected).filter((value) => value)
+                  .length <= 0
+              }
             >
               LET'S GO!
             </Button>
@@ -170,7 +176,6 @@ export default function PlanningForm({ hasExisingItineraries }) {
                   justifyContent: "center",
                 }}
               >
-                {/* <Box sx={{backgroundColor:"green"}}> */}
                 <Typography
                   sx={{
                     background: "#FFFFFF",
@@ -181,7 +186,6 @@ export default function PlanningForm({ hasExisingItineraries }) {
                 >
                   OR
                 </Typography>
-                {/* </Box> */}
               </Box>
               <Button
                 variant="contained"
