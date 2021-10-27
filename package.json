@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "concurrently \"yarn --cwd=client start\" \"yarn --cwd=server dev\""
+    "start": "concurrently \"yarn --cwd=client start\" \"yarn --cwd=server dev\"",
+    "dpeloy": "git subtree push --prefix server heroku main"
   },
   "author": "",
   "license": "ISC",
