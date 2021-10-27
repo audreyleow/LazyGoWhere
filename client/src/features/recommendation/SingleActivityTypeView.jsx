@@ -13,7 +13,7 @@ import qs from "qs";
 export default function SingleActivityTypeView({ type }) {
   const [recommendations, setRecommendations] = useState();
   const [page, setPage] = useState(0);
-  const SKIPVALUE = 100;
+  const SKIPVALUE = 12;
 
   const skipValueCalc = (page) => page * SKIPVALUE;
 
