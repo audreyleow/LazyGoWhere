@@ -79,6 +79,7 @@ async function completeItinerary(user, itineraryId) {
 
 async function initItinerary(user, data) {
   const { isAutoBuild, name, numberOfActivities, categoryDescriptions } = data;
+  console.log(data);
   const activities = isAutoBuild
     ? await generateActivities(numberOfActivities, categoryDescriptions)
     : [];

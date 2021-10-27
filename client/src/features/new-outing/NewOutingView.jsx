@@ -3,8 +3,6 @@ import { useHistory } from "react-router-dom";
 import SignIn from "../auth/SignIn";
 import { useUser } from "../auth/UserProvider";
 import PlanningForm from "./PlanningForm";
-import { filterOptions } from "../../common/constants/activities-filter-options.contant";
-import qs from "qs";
 import axios from "axios";
 
 export default function NewOutingView() {
@@ -12,6 +10,7 @@ export default function NewOutingView() {
   const history = useHistory();
 
   const [step, setStep] = useState(!!user ? 1 : 0);
+  const [hasExisingItineraries, setHasExisingItineraries] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -22,14 +21,7 @@ export default function NewOutingView() {
         })
         .then((response) => {
           if (response.data.itineraries.length > 0) {
-            history.push({
-              pathname: "/recommendations",
-              search:
-                "?" +
-                qs.stringify({
-                  categoryDescriptions: filterOptions,
-                }),
-            });
+            setHasExisingItineraries(true);
           }
         });
     }
@@ -38,6 +30,6 @@ export default function NewOutingView() {
   if (step === 0) {
     return <SignIn setStep={setStep} />;
   } else {
-    return <PlanningForm />;
+    return <PlanningForm hasExisingItineraries={hasExisingItineraries} />;
   }
 }

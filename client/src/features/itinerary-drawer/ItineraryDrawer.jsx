@@ -12,12 +12,14 @@ import {
   Box,
 } from "@mui/material";
 import { useLoadedItinerary } from "./LoadedItineraryProvider";
+import { useHistory } from "react-router-dom";
 
 export default function ItineraryDrawer() {
   const [itineraryChoice, setItineraryChoice] = useState({ _id: "" });
   const { user, signOut } = useUser();
   const [userItineraries, setUserItineraries] = useState([]);
   const { state: loadedItinerary, dispatch } = useLoadedItinerary();
+  const history = useHistory();
 
   const setLoadedItinerary = (itinerary) => {
     dispatch({
@@ -109,6 +111,9 @@ export default function ItineraryDrawer() {
               fontSize: "18px",
               fontWeight: "300",
               marginRight: "5px",
+            }}
+            onClick={() => {
+              history.push("/");
             }}
           >
             CREATE NEW

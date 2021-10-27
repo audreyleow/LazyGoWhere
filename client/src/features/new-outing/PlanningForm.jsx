@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import {
   Button,
   FormControl,
@@ -21,7 +21,7 @@ import {
 import axios from "axios";
 import { useUser } from "../auth/UserProvider";
 
-export default function PlanningForm() {
+export default function PlanningForm({ hasExisingItineraries }) {
   const { user } = useUser();
   const history = useHistory();
 
@@ -37,7 +37,6 @@ export default function PlanningForm() {
 
   const [buildingOption, setBuildingOption] = useState("BUILD-YOUR-OWN");
   const isAutoBuild = buildingOption === "AUTO-BUILD";
-  console.log(isAutoBuild);
 
   const handleBuildingOption = (event) => {
     setBuildingOption(event.target.value);
@@ -65,7 +64,7 @@ export default function PlanningForm() {
         {
           name: itineraryName,
           numberOfActivities: chosenActivityNo,
-          isAutoBuild: true,
+          isAutoBuild,
           categoryDescriptions,
         },
         {
@@ -137,7 +136,13 @@ export default function PlanningForm() {
               handleBuildingOption={handleBuildingOption}
             />
           </Box>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              // marginBottom: "20px",
+            }}
+          >
             <Button
               variant="contained"
               sx={{
@@ -152,6 +157,48 @@ export default function PlanningForm() {
               LET'S GO!
             </Button>
           </Box>
+          {hasExisingItineraries && (
+            <>
+              <Box
+                sx={{
+                  width: "100%",
+                  textAlign: "center",
+                  borderBottom: "1px solid grey",
+                  lineHeight: "0.1em",
+                  margin: "20px 0 20px",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                {/* <Box sx={{backgroundColor:"green"}}> */}
+                <Typography
+                  sx={{
+                    background: "#FFFFFF",
+                    padding: "0 10px",
+                    lineHeight: "0.1em",
+                    marginBottom: "-2px",
+                  }}
+                >
+                  OR
+                </Typography>
+                {/* </Box> */}
+              </Box>
+              <Button
+                variant="contained"
+                component={Link}
+                to={{
+                  pathname: "/recommendations",
+                  search:
+                    "?" +
+                    qs.stringify({
+                      categoryDescriptions: filterOptions,
+                    }),
+                }}
+              >
+                Click here to manage your existing ititneraries.
+              </Button>
+            </>
+          )}
         </Box>
       </MainBackgroundLayout>
     </>
