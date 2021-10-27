@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SingleItinerary from "./SingleItinerary";
 import { useUser } from "../auth/UserProvider";
 import axios from "axios";
@@ -15,7 +15,6 @@ import { useLoadedItinerary } from "./LoadedItineraryProvider";
 
 export default function ItineraryDrawer() {
   const [itineraryChoice, setItineraryChoice] = useState({ _id: "" });
-
   const { user, signOut } = useUser();
   const [userItineraries, setUserItineraries] = useState([]);
   const { state: loadedItinerary, dispatch } = useLoadedItinerary();
@@ -23,7 +22,9 @@ export default function ItineraryDrawer() {
   const setLoadedItinerary = (itinerary) => {
     dispatch({
       type: "LOADED_ITINERARY_UPDATED",
-      payload: itinerary,
+      payload: itinerary
+        ? userItineraries.find((curr) => curr._id === itinerary._id)
+        : undefined,
     });
   };
 
@@ -33,7 +34,7 @@ export default function ItineraryDrawer() {
     );
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (user) {
       axios
         .get("/users/itineraries", {
@@ -50,6 +51,8 @@ export default function ItineraryDrawer() {
       <SingleItinerary
         loadedItinerary={loadedItinerary}
         setLoadedItinerary={setLoadedItinerary}
+        setUserItineraries={setUserItineraries}
+        userItineraries={userItineraries}
       />
     );
   }

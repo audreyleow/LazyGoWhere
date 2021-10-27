@@ -1,17 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box } from "@mui/system";
-import { Button, Typography } from "@mui/material";
+import { Button, MenuItem, Select, Typography } from "@mui/material";
 import MapImage from "../../assets/images/map_image.png";
 import EditItineraryView from "./EditItineraryView";
 import axios from "axios";
 import { useUser } from "../auth/UserProvider";
+import { useLoadedItinerary } from "./LoadedItineraryProvider";
+import _ from "lodash";
 
 export default function SingleItinerary({
   loadedItinerary,
   setLoadedItinerary,
+  setUserItineraries,
+  userItineraries,
 }) {
-  const placesLeftNo = 3;
   const { user } = useUser();
+  const currActivitiesNo = loadedItinerary.numberOfActivities;
+  const [maxActivitiesNo, setMaxActivitiesNo] = useState(currActivitiesNo);
+  const handleChange = (event) => {
+    setMaxActivitiesNo(event.target.value);
+  };
+  const { dispatch } = useLoadedItinerary();
+  const numberOfActivitiesInLoadedItinerary = userItineraries.find(
+    (itinerary) => itinerary._id === loadedItinerary._id
+  )?.activities.length;
+
+  const howManyMorePossibleActivites =
+    loadedItinerary.numberOfActivities - loadedItinerary.activities.length;
 
   return (
     <>
@@ -39,14 +54,34 @@ export default function SingleItinerary({
             paddingBottom: "25px",
           }}
         >
-          {placesLeftNo} places left to visit. Keep exploring!
+          {currActivitiesNo} places left to visit. Keep exploring!
         </Typography>
-        <EditItineraryView
-          loadedItinerary={loadedItinerary}
-          setLoadedItinerary={setLoadedItinerary}
-        />
+        <Box sx={{ marginBottom: "20px" }}>
+          <Typography>
+            Set the number of activities you would like for this itinerary
+          </Typography>
+          {howManyMorePossibleActivites > 0 && (
+            <Select
+              sx={{ marginBottom: "20px" }}
+              value={maxActivitiesNo}
+              onChange={handleChange}
+            >
+              {Array.from({ length: howManyMorePossibleActivites }, (_, i) => (
+                <MenuItem value={i + loadedItinerary.activities.length + 1}>
+                  {i + loadedItinerary.activities.length + 1}
+                </MenuItem>
+              ))}
+            </Select>
+          )}
+        </Box>
+        <EditItineraryView />
         <Button
           variant="contained"
+          disabled={
+            _.isEmpty(loadedItinerary) ||
+            numberOfActivitiesInLoadedItinerary >=
+              loadedItinerary.numberOfActivities
+          }
           sx={{
             backgroundColor: "#AA0000",
             borderRadius: "50px",
@@ -54,6 +89,28 @@ export default function SingleItinerary({
             fontWeight: "300",
             marginTop: "40px",
             width: "80%",
+          }}
+          onClick={async () => {
+            const isUpdate = window.confirm(
+              "Your itinerary has not been saved. Press ok if you wish to override unsaved changes in order to auto-complete your itinerary."
+            );
+            if (user && isUpdate) {
+              const response = await axios.patch(
+                `/users/itineraries/complete/${loadedItinerary._id}`,
+                undefined,
+                {
+                  headers: { token: user.token },
+                }
+              );
+
+              dispatch({
+                type: "LOADED_ITINERARY_UPDATED",
+                payload: response.data.itineraries.find(
+                  (itinerary) => itinerary._id === loadedItinerary._id
+                ),
+              });
+              setUserItineraries(response.data.itineraries);
+            }
           }}
         >
           Auto-complete Itinerary
@@ -67,6 +124,22 @@ export default function SingleItinerary({
               fontSize: "18px",
               fontWeight: "300",
               marginRight: "5px",
+            }}
+            onClick={async () => {
+              if (user) {
+                const response = await axios.delete(
+                  `/users/itineraries/${loadedItinerary._id}`,
+                  {
+                    headers: { token: user.token },
+                  }
+                );
+                dispatch({
+                  type: "LOADED_ITINERARY_UPDATED",
+                  payload: undefined,
+                });
+                setUserItineraries(response.data.itineraries);
+                setLoadedItinerary(undefined);
+              }
             }}
           >
             Delete Itinerary
@@ -82,18 +155,27 @@ export default function SingleItinerary({
             }}
             onClick={async () => {
               if (user) {
-                axios.put(
+                const response = await axios.put(
                   `/users/itineraries/${loadedItinerary._id}`,
                   {
                     ...loadedItinerary,
                     activityIds: loadedItinerary.activities.map(
                       (activity) => activity._id
                     ),
+                    numberOfActivities: maxActivitiesNo,
                   },
                   {
                     headers: { token: user.token },
                   }
                 );
+
+                dispatch({
+                  type: "LOADED_ITINERARY_UPDATED",
+                  payload: response.data.itineraries.find(
+                    (itinerary) => itinerary._id === loadedItinerary._id
+                  ),
+                });
+                setUserItineraries(response.data.itineraries);
               }
             }}
           >
@@ -101,6 +183,7 @@ export default function SingleItinerary({
           </Button>
         </Box>
         <Button
+          sx={{ marginTop: "20px" }}
           onClick={() => {
             setLoadedItinerary(undefined);
           }}

@@ -1,9 +1,11 @@
 import React from "react";
 import { Box } from "@mui/system";
+import { IconButton } from "@mui/material";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import _ from "lodash";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useLoadedItinerary } from "./LoadedItineraryProvider";
+import CloseIcon from "@mui/icons-material/Close";
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -14,6 +16,8 @@ const reorder = (list, startIndex, endIndex) => {
 };
 
 function Activity({ activity, index }) {
+  const { dispatch } = useLoadedItinerary();
+
   return (
     <Draggable draggableId={activity._id} index={index}>
       {(provided) => (
@@ -30,8 +34,27 @@ function Activity({ activity, index }) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <MenuRoundedIcon sx={{ color: "#3459B9", paddingRight: "5px" }} />{" "}
-          {_.startCase(_.camelCase(activity.name))}
+          <MenuRoundedIcon sx={{ color: "#3459B9", paddingRight: "5px" }} />
+          <Box
+            sx={{
+              display: "flex",
+              flex: "1",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            {_.startCase(_.camelCase(activity.name))}
+            <IconButton
+              size="small"
+              aria-label="close"
+              color="inherit"
+              onClick={() =>
+                dispatch({ type: "ACTIVITY_REMOVED", payload: activity._id })
+              }
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </Box>
         </Box>
       )}
     </Draggable>
@@ -58,7 +81,6 @@ export default function EditItineraryView() {
 
     dispatch({ type: "ACTIVITIES_UPDATED", payload: activities });
   };
-  console.log(state);
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>

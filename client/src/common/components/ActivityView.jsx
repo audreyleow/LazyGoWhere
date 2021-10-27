@@ -37,8 +37,6 @@ export default function ActivityView() {
     setOpeningHours(event.target.value);
   };
 
-  const getCurrActivitiesNo = () => loadedItinerary.activities.length;
-
   React.useEffect(() => {
     axios
       .get(`/activities/${activityId}`)
@@ -175,7 +173,8 @@ export default function ActivityView() {
                 )
               }
               onClick={() => {
-                if (getCurrActivitiesNo < loadedItinerary.numberOfActivities) {
+                const currActivitiesNo = loadedItinerary.activities.length;
+                if (currActivitiesNo < loadedItinerary.numberOfActivities) {
                   dispatch({ type: "ACTIVITY_ADDED", payload: activity });
                 } else {
                   setOpen(true);

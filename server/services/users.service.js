@@ -33,6 +33,63 @@ async function findItineraries(user) {
   return await getFullActivity(userDoc);
 }
 
+async function generateActivities(numberOfActivities, categoryDescriptions) {
+  const aggregateQuery = [{ $sample: { size: numberOfActivities } }];
+
+  if (!!categoryDescriptions) {
+    aggregateQuery.unshift({
+      $match: { categoryDescription: { $in: categoryDescriptions } },
+    });
+  }
+  const newActivities = await Activity.aggregate(aggregateQuery).exec();
+
+  return newActivities;
+}
+
+async function completeItinerary(user, itineraryId) {
+  const userDoc = await findOrCreateUser(user);
+  const itinerary = userDoc.itineraries.find(
+    (itinerary) => itinerary._id.toString() === itineraryId
+  );
+  const numberOfActivitiesToGenerate =
+    itinerary.numberOfActivities - itinerary.activityIds.length;
+
+  if (numberOfActivitiesToGenerate < 1) {
+    return;
+  }
+
+  const activities = await generateActivities(numberOfActivitiesToGenerate);
+
+  userDoc.itineraries = userDoc.itineraries.map((itinerary) =>
+    itinerary._id.toString() === itineraryId
+      ? {
+          ...itinerary.toJSON(),
+          activityIds: [
+            ...itinerary.activityIds,
+            ...activities.map((activity) => activity._id),
+          ],
+        }
+      : itinerary
+  );
+
+  await userDoc.save();
+
+  return await getFullActivity(userDoc);
+}
+
+async function initItinerary(user, data) {
+  const { isAutoBuild, name, numberOfActivities, categoryDescriptions } = data;
+  const activities = isAutoBuild
+    ? await generateActivities(numberOfActivities, categoryDescriptions)
+    : [];
+
+  return createItinerary(user, {
+    name,
+    numberOfActivities,
+    activityIds: activities.map((activity) => activity._id),
+  });
+}
+
 async function createItinerary(user, data) {
   const updatedUser = await User.findByIdAndUpdate(
     user.uid,
@@ -59,7 +116,7 @@ async function updateItinerary(itineraryId, user, data) {
 async function removeItinerary(itineraryId, user) {
   const userDoc = await findOrCreateUser(user);
   userDoc.itineraries = userDoc.itineraries.filter(
-    (itinerary) => itinerary._id.toString() === itineraryId
+    (itinerary) => itinerary._id.toString() !== itineraryId
   );
 
   await userDoc.save();
@@ -72,4 +129,6 @@ module.exports = {
   createItinerary,
   updateItinerary,
   removeItinerary,
+  initItinerary,
+  completeItinerary,
 };

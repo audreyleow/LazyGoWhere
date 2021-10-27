@@ -9,8 +9,18 @@ router.get("/itineraries", isAuthorized, async function (req, res) {
   return res.json(itineraries);
 });
 
+router.post("/itineraries/init", isAuthorized, async function (req, res) {
+  const itineraries = await usersService.initItinerary(req.user, req.body);
+  return res.json(itineraries);
+});
+
 router.post("/itineraries", isAuthorized, async function (req, res) {
   const itineraries = await usersService.createItinerary(req.user, req.body);
+  return res.json(itineraries);
+});
+
+router.patch("/itineraries/complete/:id", isAuthorized, async function (req, res) {
+  const itineraries = await usersService.completeItinerary(req.user, req.params.id);
   return res.json(itineraries);
 });
 

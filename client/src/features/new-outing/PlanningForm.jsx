@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Button } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  OutlinedInput,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import MainBackgroundLayout from "../../common/components/MainBackgroundLayout";
 import DropdownFeature from "../../common/components/DropdownFeature";
@@ -12,8 +18,11 @@ import {
   dayOptions,
   filterOptions,
 } from "../../common/constants/activities-filter-options.contant";
+import axios from "axios";
+import { useUser } from "../auth/UserProvider";
 
 export default function PlanningForm() {
+  const { user } = useUser();
   const history = useHistory();
 
   const [chosenActivityNo, setChosenActivityNo] = useState(null);
@@ -21,12 +30,14 @@ export default function PlanningForm() {
     setChosenActivityNo(event.target.value);
   };
 
-  const [day, setDay] = useState("");
-  const handleSetDay = (event) => {
-    setDay(event.target.value);
+  const [itineraryName, setItineraryName] = useState("");
+  const handleItineraryName = (event) => {
+    setItineraryName(event.target.value);
   };
 
   const [buildingOption, setBuildingOption] = useState("BUILD-YOUR-OWN");
+  const isAutoBuild = buildingOption === "AUTO-BUILD";
+  console.log(isAutoBuild);
 
   const handleBuildingOption = (event) => {
     setBuildingOption(event.target.value);
@@ -43,15 +54,32 @@ export default function PlanningForm() {
     }));
   };
 
-  const onClick = () => {
+  const onClick = async () => {
+    const categoryDescriptions = Object.entries(activitiesSelected)
+      .filter(([property, value]) => value)
+      .map(([property]) => property);
+
+    if (user) {
+      const response = await axios.post(
+        `/users/itineraries/init`,
+        {
+          name: itineraryName,
+          numberOfActivities: chosenActivityNo,
+          isAutoBuild: true,
+          categoryDescriptions,
+        },
+        {
+          headers: { token: user.token },
+        }
+      );
+    }
+
     history.push({
       pathname: "/recommendations",
       search:
         "?" +
         qs.stringify({
-          categoryDescriptions: Object.entries(activitiesSelected)
-            .filter(([property, value]) => value)
-            .map(([property]) => property),
+          categoryDescriptions,
         }),
     });
   };
@@ -68,13 +96,24 @@ export default function PlanningForm() {
           }}
         >
           <Box>
-            <DropdownFeature
-              DropdownQuestion={`Will your outing be on a weekday or weekend?`}
-              DropdownCaption={`Select the day of your outing`}
-              DropdownValue={day}
-              DropdownChangeHandler={handleSetDay}
-              DropdownContent={dayOptions}
-            />
+            <Typography
+              sx={{
+                fontSize: "24px",
+                fontWeight: "300",
+                color: " #333333",
+                paddingTop: "10px",
+                paddingBottom: "10px",
+                fontFamily: "Roboto",
+              }}
+            >
+              Name your itinerary:
+            </Typography>
+            <FormControl sx={{ width: "60%" }}>
+              <OutlinedInput
+                value={itineraryName}
+                onChange={handleItineraryName}
+              />
+            </FormControl>
           </Box>
           <Box>
             <DropdownFeature

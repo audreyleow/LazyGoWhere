@@ -93,6 +93,7 @@ export default function Navbar(props) {
         </AppBar>
       </Box>
       <Drawer
+        keepMounted
         PaperProps={{
           sx: {
             display: "flex",
