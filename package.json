@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "concurrently \"yarn --cwd=client start\" \"yarn --cwd=server dev\"",
-    "dpeloy": "git subtree push --prefix server heroku main"
+    "deploy": "yarn --cwd ./client build && git add . && git commit -m \"updates\" && git subtree push --prefix server heroku main"
   },
   "author": "",
   "license": "ISC",

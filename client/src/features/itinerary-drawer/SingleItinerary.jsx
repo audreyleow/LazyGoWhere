@@ -57,21 +57,26 @@ export default function SingleItinerary({
           {currActivitiesNo} places left to visit. Keep exploring!
         </Typography>
         <Box sx={{ marginBottom: "20px" }}>
-          <Typography>
-            Set the number of activities you would like for this itinerary
-          </Typography>
           {howManyMorePossibleActivites > 0 && (
-            <Select
-              sx={{ marginBottom: "20px" }}
-              value={maxActivitiesNo}
-              onChange={handleChange}
-            >
-              {Array.from({ length: howManyMorePossibleActivites }, (_, i) => (
-                <MenuItem value={i + loadedItinerary.activities.length + 1}>
-                  {i + loadedItinerary.activities.length + 1}
-                </MenuItem>
-              ))}
-            </Select>
+            <>
+              <Typography>
+                Set the number of activities you would like for this itinerary
+              </Typography>
+              <Select
+                sx={{ marginBottom: "20px" }}
+                value={maxActivitiesNo}
+                onChange={handleChange}
+              >
+                {Array.from(
+                  { length: howManyMorePossibleActivites },
+                  (_, i) => (
+                    <MenuItem value={i + loadedItinerary.activities.length + 1}>
+                      {i + loadedItinerary.activities.length + 1}
+                    </MenuItem>
+                  )
+                )}
+              </Select>
+            </>
           )}
         </Box>
         <EditItineraryView />
