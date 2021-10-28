@@ -3,6 +3,7 @@ import { Switch, Route } from "react-router-dom";
 import { useAuth } from "../features/auth/use-auth.hook";
 import NewOutingView from "../features/new-outing/NewOutingView";
 import RecommendationsMainView from "../features/recommendation/RecommendationsMainView";
+import PrivateRoute from "../common/components/PrivateRoute";
 
 function App() {
   // setup auth listeners
@@ -10,9 +11,9 @@ function App() {
 
   return (
     <Switch>
-      <Route path="/recommendations">
+      <PrivateRoute path="/recommendations">
         <RecommendationsMainView />
-      </Route>
+      </PrivateRoute>
       <Route path="/">
         <NewOutingView />
       </Route>

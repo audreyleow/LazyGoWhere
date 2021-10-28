@@ -70,17 +70,21 @@ export default function ItineraryDrawer() {
         }}
       >
         <Typography
-          sx={{ fontSize: "24px", fontWeight: "400", fontFamily: "Roboto" }}
+          sx={{
+            paddinBottom: "10px",
+            fontSize: "24px",
+            fontWeight: "400",
+            fontFamily: "Roboto",
+          }}
         >
           Hi, User!
         </Typography>
 
         <FormControl sx={{ width: "280px" }}>
-          <InputLabel id="itinerary-input">Select itinerary</InputLabel>
+          <InputLabel>Select itinerary</InputLabel>
           <Select
-            labelId="itinerary-input"
             value={itineraryChoice?._id}
-            label={itineraryChoice?.name ?? ""}
+            label="Select itinerary"
             onChange={handleSetItineraryChoice}
             autoWidth
           >

@@ -53,24 +53,6 @@ export default function Navbar(props) {
                   setIsMainDrawerOpen(true);
                 }}
               >
-                <PersonOutlineOutlinedIcon
-                  sx={{
-                    color: "#3459B9",
-                    fontSize: "40px",
-                  }}
-                />
-              </Button>
-              <Button
-                sx={{
-                  paddingLeft: "10px",
-                  paddingRight: "10px",
-                  borderRadius: "0px",
-                  "&:hover": {
-                    backgroundColor: "#ffffff",
-                    boxShadow: "none",
-                  },
-                }}
-              >
                 <EditLocationOutlinedIcon
                   sx={{ color: "#3459B9", fontSize: "40px" }}
                 />

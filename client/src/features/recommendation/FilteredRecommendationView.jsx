@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import FilterByCategory from "./FilterByCategory";
+import { useLocation } from "react-router-dom";
 import {
   Box,
   Button,
-  ButtonGroup,
   Checkbox,
   CircularProgress,
   FormControl,
@@ -16,13 +16,13 @@ import {
   Typography,
 } from "@mui/material";
 import { useQuery } from "../../common/hooks/use-query.hook";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import qs from "qs";
 import { filterOptions } from "../../common/constants/activities-filter-options.contant";
 
-const ITEMS_PER_COLUMN = 4;
-
 export default function FilteredRecommendationView() {
+  const location = useLocation();
   const query = useQuery();
 
   const [recommendations, setRecommendations] = useState();
@@ -40,6 +40,11 @@ export default function FilteredRecommendationView() {
   };
 
   React.useEffect(() => {
+    setAllChosen(query.categoryDescriptions ?? filterOptions);
+    // eslint-disable-next-line
+  }, []);
+
+  React.useEffect(() => {
     axios
       .get(
         `/activities?${qs.stringify({
@@ -51,7 +56,7 @@ export default function FilteredRecommendationView() {
         setRecommendations(res.data);
       });
     // eslint-disable-next-line
-  }, []);
+  }, [location]);
 
   if (!recommendations) {
     return (
@@ -70,7 +75,6 @@ export default function FilteredRecommendationView() {
     );
   }
 
-  console.log(allChosen);
   return (
     <Box
       sx={{ display: "flex", flexDirection: "column", padding: "20px 15px" }}
@@ -87,14 +91,12 @@ export default function FilteredRecommendationView() {
       </Typography>
       <Box sx={{ display: "flex" }}>
         <FormControl sx={{ m: 1, width: "70%" }}>
-          <InputLabel id="demo-multiple-checkbox-label">
-            Filter by activity types
-          </InputLabel>
+          <InputLabel>Filter by activity types</InputLabel>
           <Select
+            label="Filter by activity types"
             multiple
             value={allChosen}
             onChange={handleAllChosenChange}
-            input={<OutlinedInput label="Tag" />}
             renderValue={(selected) => selected.join(", ")}
           >
             {filterOptions.map((filterOption) => (
@@ -108,7 +110,19 @@ export default function FilteredRecommendationView() {
             ))}
           </Select>
         </FormControl>
-        <Button variant="outlined" sx={{ m: 1 }}>
+        <Button
+          variant="outlined"
+          sx={{ m: 1 }}
+          component={Link}
+          to={{
+            pathname: "/recommendations",
+            search:
+              "?" +
+              qs.stringify({
+                categoryDescriptions: allChosen,
+              }),
+          }}
+        >
           Filter
         </Button>
       </Box>

@@ -1,9 +1,12 @@
 import React from "react";
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Button, Paper, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import BackgroundImage from "../../assets/images/login_background.png";
+import { useUser } from "../../features/auth/UserProvider";
 
 export default function MainBackgroundLayout({ children }) {
+  const { user, signOut } = useUser();
+
   return (
     <>
       <Box
@@ -14,20 +17,32 @@ export default function MainBackgroundLayout({ children }) {
           backgroundSize: "cover",
         }}
       >
-        <Typography
-          component={Link}
-          to="/"
+        <Box
           sx={{
-            color: "#3459B9",
-            fontFamily: "SingleDayRegular",
-            fontSize: "36px",
-            fontWeight: "400",
-            paddingBottom: "30px",
-            textDecoration: "none",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
-          Lazy Go Where
-        </Typography>
+          <Typography
+            component={Link}
+            to="/"
+            sx={{
+              color: "#3459B9",
+              fontFamily: "SingleDayRegular",
+              fontSize: "36px",
+              fontWeight: "400",
+              textDecoration: "none",
+            }}
+          >
+            Lazy Go Where
+          </Typography>
+          {user && (
+            <Button sx={{ color: "#AA0000" }} onClick={signOut}>
+              Sign Out
+            </Button>
+          )}
+        </Box>
 
         <Typography
           sx={{
@@ -35,6 +50,7 @@ export default function MainBackgroundLayout({ children }) {
             fontWeight: "300",
             color: "#000000",
             textAlign: "center",
+            paddingBottom: "15px",
           }}
         >
           Lazy to plan for your next outing? Leave it to us.

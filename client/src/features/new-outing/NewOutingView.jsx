@@ -22,6 +22,8 @@ export default function NewOutingView() {
             setHasExisingItineraries(true);
           }
         });
+    } else {
+      setStep(0);
     }
   }, [user]);
 
