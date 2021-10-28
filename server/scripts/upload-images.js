@@ -24,7 +24,7 @@ async function main(directoryPath) {
     await bucket.upload(filePath, { destination });
   }
 
-  console.log("done");
+  console.log("done"); 
 }
 
 main(path.join(__dirname, "images"));
