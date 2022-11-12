@@ -32,7 +32,7 @@ admin.initializeApp({
 
 mongoose
   .connect(
-    `mongodb+srv://${process.env.mongo_username}:${process.env.mongo_password}@cluster0.hwyf0.mongodb.net/test?retryWrites=true&w=majority`
+    `mongodb+srv://${process.env.mongo_username}:${process.env.mongo_password}@cluster0.ue17dnb.mongodb.net/?retryWrites=true&w=majority`
   )
   .then(() => {
     app.use(logger("dev"));
