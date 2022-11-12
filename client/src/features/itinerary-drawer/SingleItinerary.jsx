@@ -54,7 +54,7 @@ export default function SingleItinerary({
             paddingBottom: "25px",
           }}
         >
-          {currActivitiesNo} places left to visit. Keep exploring!
+          {howManyMorePossibleActivites} places left to visit. Keep exploring!
         </Typography>
         <Box sx={{ marginBottom: "20px" }}>
           {howManyMorePossibleActivites > 0 && (
